@@ -1,0 +1,14 @@
+.header {
+    padding: 20px 0 24px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+
+.header__wrraper {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+background-color: rgba(183, 231, 219, 0.2);
+}
