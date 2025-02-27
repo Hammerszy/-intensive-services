@@ -4,7 +4,7 @@ body {
     font-size: 16px;
     overflow-x: hidden;
     font-family: $font-main;
-    // color: $dark;
+    color: $dark;
     padding: 0;
     margin: 0;
     background-image: url(./../img/main-bg.png);
@@ -20,6 +20,7 @@ body {
     @media screen and (max-width: 768px) {
         width: 100%;
         margin: 0 auto;
+        padding: 0 10px;
     }
 }
 
