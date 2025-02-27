@@ -120,5 +120,23 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: rgba(183, 231, 219, 0.2);
+  background-color: rgba(2, 103, 66, 0.2);
+  padding: 10px 16px 10px 24px;
+  border-radius: 4px;
+}
+
+.order__sevices {
+  font-size: 10px;
+  font-weight: 700;
+  color: #fff;
+  background-color: #026742;
+  display: block;
+  width: 76px;
+  padding: 8px 10px;
+  border-radius: 3px;
+  text-align: center;
+  transition: opacity 0.3s ease-in;
+}
+.order__sevices:hover {
+  opacity: 0.75;
 }/*# sourceMappingURL=main.css.map */
