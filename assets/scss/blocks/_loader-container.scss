@@ -1,5 +1,5 @@
 .loader__text {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 700;
     text-align: center;
     margin-bottom: 10px;
@@ -12,22 +12,51 @@
     border-radius: 5px;
 }
 
-.marquee__container {
-    position: relative;
-    width: 100%;
-    height: 190px;
-    overflow: hidden;
-  }
+// .marquee__container {
+//     position: relative;
+//     width: 100%;
+//     height: 190px;
+//     overflow: hidden;
+//   }
 
   .marquee__text {
-    position: absolute;
+    // position: absolute;
     white-space: nowrap;
     font-size: 183px;
     font-family: $logo-font;
     font-weight: bold;
     color: $dark-green;
-    line-height: 150px;
-    will-change: transform;
-    text-shadow: 3px 2px 3px rgba(36, 141, 71, 0.2);
+    // line-height: 150px;
+    // will-change: transform;
+    // text-shadow: 3px 2px 3px rgba(36, 141, 71, 0.2);
   }
 
+// .loader__container {
+//       position: fixed;
+//       top: 0;
+//       left: 0;
+//       width: 100%;
+//       height: 100vh;
+//       display: flex;
+//       flex-direction: column;
+//       justify-content: center;
+//       background-color: #f0f0f0;
+//       overflow: hidden;
+//     }
+
+
+    .loader__if {
+      position: relative;
+      width: 100%;
+    //   overflow: hidden;
+      height: 300px;
+    //   display: flex;
+      align-items: center;
+    }
+    
+    
+    .marquee__wrapper {
+      position: relative;
+      white-space: nowrap;
+      will-change: transform;
+    }
