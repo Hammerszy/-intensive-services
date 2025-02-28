@@ -74,7 +74,6 @@ const marqueeWrapper = document.getElementById('marqueeWrapper');
     function updateSlider() {
       setPositionByIndex();
 
-      // Update active dot
       dots.forEach((dot) => dot.classList.remove("active"));
       dots[currentIndex].classList.add("active");
     }
@@ -89,19 +88,16 @@ const marqueeWrapper = document.getElementById('marqueeWrapper');
       sliderWrapper.style.transform = `translateX(${currentTranslate}px)`;
     }
 
-    // Add touch events
     sliderWrapper.addEventListener("touchstart", touchStart);
     sliderWrapper.addEventListener("touchmove", touchMove);
     sliderWrapper.addEventListener("touchend", touchEnd);
 
-    // Add mouse events
     sliderWrapper.addEventListener("mousedown", touchStart);
     sliderWrapper.addEventListener("mousemove", touchMove);
     sliderWrapper.addEventListener("mouseup", touchEnd);
     sliderWrapper.addEventListener("mouseleave", touchEnd);
 
     function touchStart(event) {
-      // Prevent default behavior only for mouse events
       if (event.type === "mousedown") {
         event.preventDefault();
       }
@@ -109,10 +105,8 @@ const marqueeWrapper = document.getElementById('marqueeWrapper');
       isDragging = true;
       startPos = getPositionX(event);
 
-      // Stop automatic sliding when user interacts
       clearInterval(autoSlideInterval);
 
-      // Stop any ongoing animation
       cancelAnimationFrame(animationID);
     }
 
@@ -121,7 +115,6 @@ const marqueeWrapper = document.getElementById('marqueeWrapper');
         const currentPosition = getPositionX(event);
         currentTranslate = prevTranslate + currentPosition - startPos;
 
-        // Add some resistance at the edges
         if (currentTranslate > 0) {
           currentTranslate = currentTranslate * 0.3;
         } else if (currentTranslate < -(slides.length - 1) * sliderWidth) {
@@ -137,19 +130,16 @@ const marqueeWrapper = document.getElementById('marqueeWrapper');
       isDragging = false;
       const movedBy = currentTranslate - prevTranslate;
 
-      // If moved enough negative, move to next slide
       if (movedBy < -100 && currentIndex < slides.length - 1) {
         currentIndex += 1;
       }
 
-      // If moved enough positive, move to previous slide
       if (movedBy > 100 && currentIndex > 0) {
         currentIndex -= 1;
       }
 
       updateSlider();
 
-      // Restart automatic sliding
       startAutoSlide();
     }
 
@@ -157,26 +147,22 @@ const marqueeWrapper = document.getElementById('marqueeWrapper');
       return event.type.includes("mouse") ? event.pageX : event.touches[0].pageX;
     }
 
-    // Add click event to dots
     dots.forEach((dot) => {
       dot.addEventListener("click", function () {
         currentIndex = parseInt(this.getAttribute("data-index"));
         updateSlider();
 
-        // Reset auto slide timer
         clearInterval(autoSlideInterval);
         startAutoSlide();
       });
     });
 
-    // Prevent context menu on right click
     sliderWrapper.addEventListener("contextmenu", (e) => {
       e.preventDefault();
       e.stopPropagation();
       return false;
     });
 
-    // Auto slide function
     let autoSlideInterval;
 
     function startAutoSlide() {
@@ -187,7 +173,6 @@ const marqueeWrapper = document.getElementById('marqueeWrapper');
       }, 5000);
     }
 
-    // Initial setup
     updateSlider();
     startAutoSlide();
   });
