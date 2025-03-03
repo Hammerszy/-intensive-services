@@ -587,4 +587,41 @@ select {
 }
 .request__btn:hover {
   opacity: 0.75;
+}
+
+.footer {
+  background-color: #B9CDC6;
+  padding: 25px 0 62px 0;
+}
+
+.contact {
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+.title__contact {
+  font-weight: 900;
+  font-size: 30px;
+  color: #026742;
+}
+
+.contact__subtitle {
+  font-size: 20px;
+}
+
+.contact__block {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 24px;
+}
+
+.contact__detail {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+.contact__detail span:nth-child(1) {
+  font-weight: 700;
 }/*# sourceMappingURL=main.css.map */
