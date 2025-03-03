@@ -59,6 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let currentTranslate = 0;
   let prevTranslate = 0;
   let sliderWidth = sliderWrapper.clientWidth;
+  let slideMargin = 20; // Відступ між слайдами
 
   window.addEventListener("resize", () => {
     sliderWidth = sliderWrapper.clientWidth;
@@ -73,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function setPositionByIndex() {
-    currentTranslate = currentIndex * -sliderWidth;
+    currentTranslate = currentIndex * -(sliderWidth + slideMargin); // Враховуємо відступ
     prevTranslate = currentTranslate;
     setSliderPosition();
   }
@@ -108,9 +109,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (currentTranslate > 0) {
         currentTranslate = currentTranslate * 0.3;
-      } else if (currentTranslate < -(slides.length - 1) * sliderWidth) {
-        const over = currentTranslate - -(slides.length - 1) * sliderWidth;
-        currentTranslate = -(slides.length - 1) * sliderWidth + over * 0.3;
+      } else if (currentTranslate < -(slides.length - 1) * (sliderWidth + slideMargin)) {
+        const over = currentTranslate - -(slides.length - 1) * (sliderWidth + slideMargin);
+        currentTranslate = -(slides.length - 1) * (sliderWidth + slideMargin) + over * 0.3;
       }
 
       setSliderPosition();
