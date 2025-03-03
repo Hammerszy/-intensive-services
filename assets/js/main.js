@@ -1,178 +1,153 @@
-const marqueeWrapper = document.getElementById('marqueeWrapper');
-    
-    // Define the text and create multiple instances
-    const text = "Loader_if";
-    const repetitions = 1; // Enough repetitions to fill the screen width
-    
-    // Create the elements
-    for (let i = 0; i < repetitions; i++) {
-      const textElement = document.createElement('span');
-      textElement.className = 'marquee__text';
-      textElement.textContent = text;
-      marqueeWrapper.appendChild(textElement);
+const text = "Loader_if";
+const repetitions = 1; // Достатня кількість повторень для заповнення ширини екрану
+
+// Створюємо елементи
+for (let i = 0; i < repetitions; i++) {
+  const textElement = document.createElement("span");
+  textElement.className = "marquee__text";
+  textElement.textContent = text;
+  marqueeWrapper.appendChild(textElement);
+}
+
+const textElements = document.querySelectorAll(".marquee__text");
+
+// Обчислюємо ширину одного текстового елемента
+const textWidth = textElements[0].offsetWidth + parseInt(getComputedStyle(textElements[0]).marginRight);
+
+// Обчислюємо загальну ширину всіх текстових елементів
+const totalWidth = textWidth * repetitions;
+
+// Початкова позиція та позиція прокрутки
+let position = 0;
+let lastScrollY = window.scrollY;
+
+// Переконуємось, що обгортка починається з позиції 0
+marqueeWrapper.style.transform = `translateX(0px)`;
+
+// Додаємо слухач події прокрутки
+window.addEventListener("scroll", function () {
+  // Обчислюємо дельту прокрутки
+  const scrollDelta = window.scrollY - lastScrollY;
+  lastScrollY = window.scrollY;
+
+  // Змінюємо напрямок руху: додаємо позитивне значення для руху вправо
+  // Позитивна scrollDelta (прокрутка вниз) тепер рухає текст вліво
+  position += scrollDelta * 1.5;
+
+  // Створюємо ефект циклу
+  if (position >= textWidth) {
+    // Якщо ми прокрутили далі ширини одного екземпляра, повертаємось на початок
+    position -= textWidth;
+  } else if (position < -textWidth) {
+    // Якщо ми прокрутили вгору занадто далеко, переходимо до кінця
+    position += textWidth;
+  }
+
+  // Застосовуємо трансформацію
+  marqueeWrapper.style.transform = `translateX(${position}px)`;
+});
+
+//slider
+document.addEventListener("DOMContentLoaded", function () {
+  const sliderWrapper = document.querySelector(".slider-wrapper");
+  const dots = document.querySelectorAll(".dot");
+  const slides = document.querySelectorAll(".slide");
+  let currentIndex = 0;
+
+  let isDragging = false;
+  let startPos = 0;
+  let currentTranslate = 0;
+  let prevTranslate = 0;
+  let sliderWidth = sliderWrapper.clientWidth;
+
+  window.addEventListener("resize", () => {
+    sliderWidth = sliderWrapper.clientWidth;
+    setPositionByIndex();
+  });
+
+  function updateSlider() {
+    setPositionByIndex();
+
+    dots.forEach((dot) => dot.classList.remove("active"));
+    dots[currentIndex].classList.add("active");
+  }
+
+  function setPositionByIndex() {
+    currentTranslate = currentIndex * -sliderWidth;
+    prevTranslate = currentTranslate;
+    setSliderPosition();
+  }
+
+  function setSliderPosition() {
+    sliderWrapper.style.transform = `translateX(${currentTranslate}px)`;
+  }
+
+  sliderWrapper.addEventListener("touchstart", touchStart);
+  sliderWrapper.addEventListener("touchmove", touchMove);
+  sliderWrapper.addEventListener("touchend", touchEnd);
+
+  sliderWrapper.addEventListener("mousedown", touchStart);
+  sliderWrapper.addEventListener("mousemove", touchMove);
+  sliderWrapper.addEventListener("mouseup", touchEnd);
+  sliderWrapper.addEventListener("mouseleave", touchEnd);
+
+  function touchStart(event) {
+    if (event.type === "mousedown") {
+      event.preventDefault();
     }
-    
-    // Get all text elements
-    const textElements = document.querySelectorAll('.marquee__text');
-    
-    // Calculate the width of a single text element
-    const textWidth = textElements[0].offsetWidth + parseInt(getComputedStyle(textElements[0]).marginRight);
-    
-    // Calculate total width of all text elements
-    const totalWidth = textWidth * repetitions;
-    
-    // Initial position and scroll position
-    let position = 0;
-    let lastScrollY = window.scrollY;
-    
-    // Make sure the wrapper starts at position 0
-    marqueeWrapper.style.transform = `translateX(0px)`;
-    
-    // Add scroll event listener
-    window.addEventListener('scroll', function() {
-      // Calculate scroll delta
-      const scrollDelta = window.scrollY - lastScrollY;
-      lastScrollY = window.scrollY;
-      
-      // Move the text based on scroll direction (speed multiplier: 1.5)
-      // Positive scrollDelta (scrolling down) moves text right
-      position -= scrollDelta * 1.5;
-      
-      // Create loop effect
-      if (position <= -textWidth) {
-        // If we've scrolled past one instance width, loop back
-        position += textWidth;
-      } else if (position > 0) {
-        // If we've scrolled up past the beginning, loop to the end
-        position -= textWidth;
+
+    isDragging = true;
+    startPos = getPositionX(event);
+    cancelAnimationFrame(animationID);
+  }
+
+  function touchMove(event) {
+    if (isDragging) {
+      const currentPosition = getPositionX(event);
+      currentTranslate = prevTranslate + currentPosition - startPos;
+
+      if (currentTranslate > 0) {
+        currentTranslate = currentTranslate * 0.3;
+      } else if (currentTranslate < -(slides.length - 1) * sliderWidth) {
+        const over = currentTranslate - -(slides.length - 1) * sliderWidth;
+        currentTranslate = -(slides.length - 1) * sliderWidth + over * 0.3;
       }
-      
-      // Apply the transform
-      marqueeWrapper.style.transform = `translateX(${position}px)`;
-    });
 
-  //slider
-
-  document.addEventListener("DOMContentLoaded", function () {
-    const sliderWrapper = document.querySelector(".slider-wrapper");
-    const dots = document.querySelectorAll(".dot");
-    const slides = document.querySelectorAll(".slide");
-    let currentIndex = 0;
-
-    let isDragging = false;
-    let startPos = 0;
-    let currentTranslate = 0;
-    let prevTranslate = 0;
-    let animationID = 0;
-    let sliderWidth = sliderWrapper.clientWidth;
-
-    window.addEventListener("resize", () => {
-      sliderWidth = sliderWrapper.clientWidth;
-      setPositionByIndex();
-    });
-
-    function updateSlider() {
-      setPositionByIndex();
-
-      dots.forEach((dot) => dot.classList.remove("active"));
-      dots[currentIndex].classList.add("active");
-    }
-
-    function setPositionByIndex() {
-      currentTranslate = currentIndex * -sliderWidth;
-      prevTranslate = currentTranslate;
       setSliderPosition();
     }
+  }
 
-    function setSliderPosition() {
-      sliderWrapper.style.transform = `translateX(${currentTranslate}px)`;
+  function touchEnd() {
+    isDragging = false;
+    const movedBy = currentTranslate - prevTranslate;
+
+    if (movedBy < -100 && currentIndex < slides.length - 1) {
+      currentIndex += 1;
     }
 
-    sliderWrapper.addEventListener("touchstart", touchStart);
-    sliderWrapper.addEventListener("touchmove", touchMove);
-    sliderWrapper.addEventListener("touchend", touchEnd);
-
-    sliderWrapper.addEventListener("mousedown", touchStart);
-    sliderWrapper.addEventListener("mousemove", touchMove);
-    sliderWrapper.addEventListener("mouseup", touchEnd);
-    sliderWrapper.addEventListener("mouseleave", touchEnd);
-
-    function touchStart(event) {
-      if (event.type === "mousedown") {
-        event.preventDefault();
-      }
-
-      isDragging = true;
-      startPos = getPositionX(event);
-
-      clearInterval(autoSlideInterval);
-
-      cancelAnimationFrame(animationID);
-    }
-
-    function touchMove(event) {
-      if (isDragging) {
-        const currentPosition = getPositionX(event);
-        currentTranslate = prevTranslate + currentPosition - startPos;
-
-        if (currentTranslate > 0) {
-          currentTranslate = currentTranslate * 0.3;
-        } else if (currentTranslate < -(slides.length - 1) * sliderWidth) {
-          const over = currentTranslate - -(slides.length - 1) * sliderWidth;
-          currentTranslate = -(slides.length - 1) * sliderWidth + over * 0.3;
-        }
-
-        setSliderPosition();
-      }
-    }
-
-    function touchEnd() {
-      isDragging = false;
-      const movedBy = currentTranslate - prevTranslate;
-
-      if (movedBy < -100 && currentIndex < slides.length - 1) {
-        currentIndex += 1;
-      }
-
-      if (movedBy > 100 && currentIndex > 0) {
-        currentIndex -= 1;
-      }
-
-      updateSlider();
-
-      startAutoSlide();
-    }
-
-    function getPositionX(event) {
-      return event.type.includes("mouse") ? event.pageX : event.touches[0].pageX;
-    }
-
-    dots.forEach((dot) => {
-      dot.addEventListener("click", function () {
-        currentIndex = parseInt(this.getAttribute("data-index"));
-        updateSlider();
-
-        clearInterval(autoSlideInterval);
-        startAutoSlide();
-      });
-    });
-
-    sliderWrapper.addEventListener("contextmenu", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      return false;
-    });
-
-    let autoSlideInterval;
-
-    function startAutoSlide() {
-      clearInterval(autoSlideInterval);
-      autoSlideInterval = setInterval(function () {
-        currentIndex = (currentIndex + 1) % slides.length;
-        updateSlider();
-      }, 5000);
+    if (movedBy > 100 && currentIndex > 0) {
+      currentIndex -= 1;
     }
 
     updateSlider();
-    startAutoSlide();
+  }
+
+  function getPositionX(event) {
+    return event.type.includes("mouse") ? event.pageX : event.touches[0].pageX;
+  }
+
+  dots.forEach((dot) => {
+    dot.addEventListener("click", function () {
+      currentIndex = parseInt(this.getAttribute("data-index"));
+      updateSlider();
+    });
   });
+
+  sliderWrapper.addEventListener("contextmenu", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
+  });
+
+  updateSlider();
+});

@@ -243,6 +243,7 @@ body {
 .slider-container {
   position: relative;
   overflow: hidden;
+  padding-bottom: 69px;
 }
 
 .rates-title {
@@ -279,6 +280,9 @@ body {
   border: 1px solid #000;
   position: relative;
   box-shadow: rgb(2, 103, 66) 4px 5px 0px 3px inset, rgba(255, 255, 255, 0.5) 0px -2px 6px 0px inset;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .service__btn {
@@ -319,9 +323,14 @@ body {
   color: #2e6e45;
 }
 
+.service-image {
+  margin-top: auto;
+}
 .service-image img {
   border-radius: 8px;
   box-shadow: rgba(0, 0, 0, 0.6) 0px 5px 15px;
+  display: flex;
+  margin: 0 auto;
 }
 
 .dots-container {
@@ -376,6 +385,11 @@ body {
 }
 .price-value span {
   font-weight: 700;
+}
+
+.price__txt-value {
+  font-size: 12px;
+  font-style: italic;
 }
 
 .price-line {
