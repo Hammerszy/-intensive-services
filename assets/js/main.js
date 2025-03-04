@@ -202,3 +202,66 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
+
+  const customSelect = document.getElementById("customSelect");
+  const orderContainer = document.getElementById("orderContainer");
+  const serviceError = document.getElementById("serviceError");
+
+  customSelect.addEventListener("focus", () => {
+    orderContainer.classList.add("overlay");
+    customSelect.classList.add("error");
+  });
+
+  customSelect.addEventListener("change", () => {
+    orderContainer.classList.remove("overlay");
+    customSelect.classList.remove("error");
+    serviceError.classList.remove("show");
+  });
+
+  // Закриваємо селект при кліці поза ним
+  document.addEventListener("click", (event) => {
+    if (!orderContainer.contains(event.target)) {
+      customSelect.blur();
+      orderContainer.classList.remove("overlay");
+    }
+  });
+
+  // Форма валідація
+  const form = document.querySelector(".order__form");
+  form.addEventListener("submit", (e) => {
+    let isValid = true;
+
+    // Name validation
+    const nameInput = document.getElementById("name");
+    const nameError = document.getElementById("nameError");
+    if (!nameInput.value.trim()) {
+      nameError.classList.add("show");
+      isValid = false;
+    } else {
+      nameError.classList.remove("show");
+    }
+
+    // Phone validation
+    const phoneInput = document.getElementById("phone");
+    const phoneError = document.getElementById("phoneError");
+    if (!phoneInput.value.trim()) {
+      phoneError.classList.add("show");
+      isValid = false;
+    } else {
+      phoneError.classList.remove("show");
+    }
+
+    // Service validation
+    if (customSelect.value === "") {
+      serviceError.classList.add("show");
+      customSelect.classList.add("error");
+      isValid = false;
+    } else {
+      serviceError.classList.remove("show");
+      customSelect.classList.remove("error");
+    }
+
+    if (!isValid) {
+      e.preventDefault();
+    }
+  });
