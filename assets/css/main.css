@@ -547,7 +547,7 @@ body {
 }
 
 .order__form.overlay {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .custom-select-wrapper {
@@ -583,10 +583,11 @@ body {
 
 .form__select {
   appearance: none;
-  background-image: url("");
+  background-image: url("./../../img/svg/select-arrow.svg");
   background-repeat: no-repeat;
   background-position: right 15px center;
   background-size: 12px;
+  outline: none;
 }
 
 .form__input.error,
