@@ -125,6 +125,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
+//error validation
 
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("orderForm");
