@@ -124,3 +124,80 @@ document.addEventListener("DOMContentLoaded", function () {
     moveX = null;
   });
 });
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("orderForm");
+  const nameInput = document.getElementById("name");
+  const phoneInput = document.getElementById("phone");
+  const serviceSelect = document.getElementById("service");
+
+  const nameError = document.getElementById("nameError");
+  const phoneError = document.getElementById("phoneError");
+  const serviceError = document.getElementById("serviceError");
+
+  // Додаткові правила валідації
+  function validateName(name) {
+    // Перевірка на кириличні та латинські символи
+    const nameRegex = /^[A-Za-zА-Яа-яЁёЄєІіЇї\s]+$/;
+    return name.length >= 2 && nameRegex.test(name);
+  }
+
+  function validatePhone(phone) {
+    // Перевірка на 10 цифр
+    return phone.replace(/\D/g, "").length === 10;
+  }
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    let isValid = true;
+
+    // Name validation
+    if (nameInput.value.trim() === "") {
+      nameInput.classList.add("error");
+      nameError.classList.add("show");
+      nameError.textContent = "Заповніть поле";
+      isValid = false;
+    } else if (!validateName(nameInput.value.trim())) {
+      nameInput.classList.add("error");
+      nameError.classList.add("show");
+      nameError.textContent = "Введіть ім'я лише кирилицею або латиницею";
+      isValid = false;
+    } else {
+      nameInput.classList.remove("error");
+      nameError.classList.remove("show");
+    }
+
+    // Phone validation
+    if (phoneInput.value.trim() === "") {
+      phoneInput.classList.add("error");
+      phoneError.classList.add("show");
+      phoneError.textContent = "Заповніть поле";
+      isValid = false;
+    } else if (!validatePhone(phoneInput.value)) {
+      phoneInput.classList.add("error");
+      phoneError.classList.add("show");
+      phoneError.textContent = "Недостатня кількість цифр";
+      isValid = false;
+    } else {
+      phoneInput.classList.remove("error");
+      phoneError.classList.remove("show");
+    }
+
+    // Service validation
+    if (serviceSelect.value === "") {
+      serviceSelect.classList.add("error");
+      serviceError.classList.add("show");
+      isValid = false;
+    } else {
+      serviceSelect.classList.remove("error");
+      serviceError.classList.remove("show");
+    }
+
+    if (isValid) {
+      alert("Форма успішно надіслана!");
+      form.reset();
+    }
+  });
+});

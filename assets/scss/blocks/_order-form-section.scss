@@ -33,17 +33,22 @@
   margin-bottom: 4px;
 }
 
+.form__block {
+  margin-bottom: 22px;
+}
+
 .form__input,
 select {
   width: 100%;
   padding: 10px;
-  margin-bottom: 22px;
   border: none;
-  background-color: #e9e9e9;
+  background-color: $light-gray;
   border-radius: 5px;
   font-size: 14px;
+  border: 1px solid #ccc;
   box-sizing: border-box;
 }
+
 
 select {
   appearance: none;
@@ -53,17 +58,33 @@ select {
   background-size: 12px;
 }
 
+.form__input.error,
+.form__select.error {
+  border-color: $red;
+}
+
+.error-text {
+  color: $red;
+  font-size: 12px;
+  margin-top: 5px;
+  display: none;
+}
+
+.error-text.show {
+  display: block;
+}
+
 .request__btn {
-    font-weight: 700;
-    color: $white;
-    background-color: $dark-green;
-    border-radius: 3px;
-    display: block;
-    width: 166px;
-    padding: 10px 7px;
-    border: 0;
-    text-align: center;
-    margin: 0 auto;
-    box-shadow: rgba(9, 30, 66, 0.6) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
-    @include a_hover;
+  font-weight: 700;
+  color: $white;
+  background-color: $dark-green;
+  border-radius: 3px;
+  display: block;
+  width: 166px;
+  padding: 10px 7px;
+  border: 0;
+  text-align: center;
+  margin: 0 auto;
+  box-shadow: rgba(9, 30, 66, 0.6) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+  @include a_hover;
 }
