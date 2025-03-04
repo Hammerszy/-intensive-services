@@ -320,7 +320,7 @@
         </div>
       </section>
 
-      <section class="order-form-section">
+      <!-- <section class="order-form-section">
         <div class="order-container">
           <h2 class="order__title">Швидке замовлення послуги</h2>
 
@@ -341,12 +341,13 @@
 
             <div class="form__block">
               <label class="form__label" for="service">Вид роботи</label>
-              <select class="form__select error" id="service" name="service" required>
+              <select class="form__select error" id="serviceSelect" name="service" required>
                 <option value="" disabled selected>Що потрібно зробити?</option>
-                <option value="cleaning">Прибирання</option>
-                <option value="repair">Ремонт</option>
-                <option value="delivery">Доставка</option>
-                <option value="other">Інше</option>
+                <option value="apartment">Квартирні та офісні переїзди</option>
+                <option value="floor">Підйом на поверх без ліфта</option>
+                <option value="debris">Вивіз будівельного сміття</option>
+                <option value="cargo">Вантажні перевезення</option>
+                <option value="loaders">Послуги вантажників</option>
               </select>
               <div id="serviceError" class="error-text show">Не обраний тип роботи</div>
             </div>
@@ -354,7 +355,7 @@
             <button class="request__btn" type="submit">Залишити заявку</button>
           </form>
         </div>
-      </section>
+      </section> -->
     </main>
 
     <footer class="footer">
@@ -416,4 +417,191 @@
 
     <script src="./assets/js/main.js"></script>
   </body>
+</html>
+
+    <style>
+
+
+  
+        .order__form {
+            padding: 30px;
+        }
+        .order__form.overlay {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .order__sevices-title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .form__block {
+            margin-bottom: 15px;
+        }
+        .form__label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+        }
+        .form__input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .custom-select-wrapper {
+            position: relative;
+        }
+        .custom-select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 16px;
+            color: #888;
+        }
+        .custom-select::after {
+            content: '▼';
+            font-size: 0.7em;
+            color: #999;
+        }
+        .custom-select-options {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 20;
+        }
+        .custom-select-option {
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+    
+     
+    </style>
+</head>
+<body>
+    <div class="order-container">
+        <form action="#!" class="order__form "  id="orderContainer">
+            <h3 class="order__sevices-title">Замовити послугу</h3>
+
+            <div class="form__block">
+                <label class="form__label" for="name">Ваше ім'я</label>
+                <input class="form__input" type="text" id="name" name="name" required />
+                <div id="nameError" class="error-text">Заповніть поле</div>
+            </div>
+
+            <div class="form__block">
+                <label class="form__label" for="phone">Номер телефону</label>
+                <input class="form__input" type="tel" id="phone" name="phone" required />
+                <div id="phoneError" class="error-text">Заповніть поле</div>
+            </div>
+
+            <div class="form__block">
+                <label class="form__label" for="service">Вид роботи</label>
+                <div class="custom-select-wrapper">
+                    <!-- <div class="custom-select" id="customSelect">Що потрібно зробити?</div>
+                    <div class="custom-select-options" id="customSelectOptions">
+                        <div class="custom-select-option" data-value="apartment">Квартирні та офісні переїзди</div>
+                        <div class="custom-select-option" data-value="floor">Підйом на поверх без ліфта</div>
+                        <div class="custom-select-option" data-value="debris">Вивіз будівельного сміття</div>
+                        <div class="custom-select-option" data-value="cargo">Вантажні перевезення</div>
+                        <div class="custom-select-option" data-value="loaders">Послуги вантажників</div>
+                    </div> -->
+
+                   <select class="form__select error" id="customSelect" name="service" required>
+                    <option class="custom-select-options" value="" id="customSelectOptions" disabled selected>Що потрібно зробити?</option>
+                    <option value="apartment">Квартирні та офісні переїзди</option>
+                    <option value="floor">Підйом на поверх без ліфта</option>
+                    <option value="debris">Вивіз будівельного сміття</option>
+                    <option value="cargo">Вантажні перевезення</option>
+                    <option value="loaders">Послуги вантажників</option>
+                </select>
+
+                </div>
+                <div id="serviceError" class="error-text">Не обраний тип роботи</div>
+            </div>
+
+            <button class="request__btn" type="submit">Залишити заявку</button>
+        </form>
+    </div>
+
+    <script>
+      const customSelect = document.getElementById('customSelect');
+        const orderContainer = document.getElementById('orderContainer');
+        const serviceError = document.getElementById('serviceError');
+
+        customSelect.addEventListener('focus', () => {
+            orderContainer.classList.add('overlay');
+            customSelect.classList.add('error');
+        });
+
+        customSelect.addEventListener('change', () => {
+            orderContainer.classList.remove('overlay');
+            customSelect.classList.remove('error');
+            serviceError.classList.remove('show');
+        });
+
+        // Закриваємо селект при кліці поза ним
+        document.addEventListener('click', (event) => {
+            if (!orderContainer.contains(event.target)) {
+                customSelect.blur();
+                orderContainer.classList.remove('overlay');
+            }
+        });
+
+        // Форма валідація
+        const form = document.querySelector('.order__form');
+        form.addEventListener('submit', (e) => {
+            let isValid = true;
+
+            // Name validation
+            const nameInput = document.getElementById('name');
+            const nameError = document.getElementById('nameError');
+            if (!nameInput.value.trim()) {
+                nameError.classList.add('show');
+                isValid = false;
+            } else {
+                nameError.classList.remove('show');
+            }
+
+            // Phone validation
+            const phoneInput = document.getElementById('phone');
+            const phoneError = document.getElementById('phoneError');
+            if (!phoneInput.value.trim()) {
+                phoneError.classList.add('show');
+                isValid = false;
+            } else {
+                phoneError.classList.remove('show');
+            }
+
+            // Service validation
+            if (customSelect.value === '') {
+                serviceError.classList.add('show');
+                customSelect.classList.add('error');
+                isValid = false;
+            } else {
+                serviceError.classList.remove('show');
+                customSelect.classList.remove('error');
+            }
+
+            if (!isValid) {
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
 </html>

@@ -562,7 +562,7 @@ body {
 }
 
 .form__input,
-select {
+.form__select {
   width: 100%;
   padding: 10px;
   border: none;
@@ -573,7 +573,7 @@ select {
   box-sizing: border-box;
 }
 
-select {
+.form__select {
   appearance: none;
   background-image: url("");
   background-repeat: no-repeat;
