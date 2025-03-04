@@ -39,116 +39,80 @@ window.addEventListener("scroll", function () {
     // Якщо ми прокрутили далі ширини одного екземпляра, повертаємось на початок
     position -= textWidth;
   } else if (position < -textWidth) {
-    // Якщо ми прокрутили вгору занадто далеко, переходимо до кінця
     position += textWidth;
   }
 
-  // Застосовуємо трансформацію
   marqueeWrapper.style.transform = `translateX(${position}px)`;
 });
 
 //slider
-document.addEventListener("DOMContentLoaded", function () {
-  const sliderWrapper = document.querySelector(".slider-wrapper");
-  const dots = document.querySelectorAll(".dot");
-  const slides = document.querySelectorAll(".slide");
-  let currentIndex = 0;
+      document.addEventListener("DOMContentLoaded", function () {
+        const sliderTrack = document.querySelector(".slider-track");
+        const slides = document.querySelectorAll(".slide");
+        const navDots = document.querySelectorAll(".nav-dot");
+        const slideWidth = slides[0].offsetWidth;
+        let currentIndex = 0;
 
-  let isDragging = false;
-  let startPos = 0;
-  let currentTranslate = 0;
-  let prevTranslate = 0;
-  let sliderWidth = sliderWrapper.clientWidth;
-  let slideMargin = 20; // Відступ між слайдами
+        // Initialize slider
+        updateSlider();
 
-  window.addEventListener("resize", () => {
-    sliderWidth = sliderWrapper.clientWidth;
-    setPositionByIndex();
-  });
+        // Set up event listeners for nav dots
+        navDots.forEach((dot, index) => {
+          dot.addEventListener("click", () => {
+            currentIndex = index;
+            updateSlider();
+          });
+        });
 
-  function updateSlider() {
-    setPositionByIndex();
+        // Auto slide (optional)
+        // setInterval(() => {
+        //     currentIndex = (currentIndex + 1) % slides.length;
+        //     updateSlider();
+        // }, 5000);
 
-    dots.forEach((dot) => dot.classList.remove("active"));
-    dots[currentIndex].classList.add("active");
-  }
+        function updateSlider() {
+          sliderTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
 
-  function setPositionByIndex() {
-    currentTranslate = currentIndex * -(sliderWidth + slideMargin); // Враховуємо відступ
-    prevTranslate = currentTranslate;
-    setSliderPosition();
-  }
+          navDots.forEach((dot, index) => {
+            if (index === currentIndex) {
+              dot.classList.add("active");
+            } else {
+              dot.classList.remove("active");
+            }
+          });
+        }
 
-  function setSliderPosition() {
-    sliderWrapper.style.transform = `translateX(${currentTranslate}px)`;
-  }
+        let startX, moveX;
+        let isDragging = false;
 
-  sliderWrapper.addEventListener("touchstart", touchStart);
-  sliderWrapper.addEventListener("touchmove", touchMove);
-  sliderWrapper.addEventListener("touchend", touchEnd);
+        sliderTrack.addEventListener("touchstart", (e) => {
+          startX = e.touches[0].clientX;
+          isDragging = true;
+        });
 
-  sliderWrapper.addEventListener("mousedown", touchStart);
-  sliderWrapper.addEventListener("mousemove", touchMove);
-  sliderWrapper.addEventListener("mouseup", touchEnd);
-  sliderWrapper.addEventListener("mouseleave", touchEnd);
+        sliderTrack.addEventListener("touchmove", (e) => {
+          if (!isDragging) return;
+          moveX = e.touches[0].clientX;
+          const diff = moveX - startX;
+          const translateX = -currentIndex * 100 + (diff / slideWidth) * 100;
 
-  function touchStart(event) {
-    if (event.type === "mousedown") {
-      event.preventDefault();
-    }
+          if (translateX <= 0 && translateX >= -(slides.length - 1) * 100) {
+            sliderTrack.style.transform = `translateX(${translateX}%)`;
+          }
+        });
 
-    isDragging = true;
-    startPos = getPositionX(event);
-    cancelAnimationFrame(animationID);
-  }
+        sliderTrack.addEventListener("touchend", () => {
+          isDragging = false;
+          if (!moveX) return;
 
-  function touchMove(event) {
-    if (isDragging) {
-      const currentPosition = getPositionX(event);
-      currentTranslate = prevTranslate + currentPosition - startPos;
+          const diff = moveX - startX;
+          if (diff > 50 && currentIndex > 0) {
+            currentIndex--;
+          } else if (diff < -50 && currentIndex < slides.length - 1) {
+            currentIndex++;
+          }
 
-      if (currentTranslate > 0) {
-        currentTranslate = currentTranslate * 0.3;
-      } else if (currentTranslate < -(slides.length - 1) * (sliderWidth + slideMargin)) {
-        const over = currentTranslate - -(slides.length - 1) * (sliderWidth + slideMargin);
-        currentTranslate = -(slides.length - 1) * (sliderWidth + slideMargin) + over * 0.3;
-      }
-
-      setSliderPosition();
-    }
-  }
-
-  function touchEnd() {
-    isDragging = false;
-    const movedBy = currentTranslate - prevTranslate;
-
-    if (movedBy < -100 && currentIndex < slides.length - 1) {
-      currentIndex += 1;
-    }
-
-    if (movedBy > 100 && currentIndex > 0) {
-      currentIndex -= 1;
-    }
-
-    updateSlider();
-  }
-
-  function getPositionX(event) {
-    return event.type.includes("mouse") ? event.pageX : event.touches[0].pageX;
-  }
-
-  dots.forEach((dot) => {
-    dot.addEventListener("click", function () {
-      currentIndex = parseInt(this.getAttribute("data-index"));
-      updateSlider();
-    });
-  });
-
-  sliderWrapper.addEventListener("contextmenu", (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    return false;
-  });
-
-  updateSlider();
-});
+          updateSlider();
+          moveX = null;
+        });
+      });

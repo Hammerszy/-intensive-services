@@ -243,8 +243,10 @@ body {
 }
 
 .slider-container {
+  max-width: 600px;
+  width: 100%;
   position: relative;
-  overflow: hidden;
+  margin: 0 auto;
   padding-bottom: 69px;
 }
 
@@ -255,16 +257,20 @@ body {
   font-size: 18px;
 }
 
-.slider-wrapper {
-  display: flex;
+.slider {
+  overflow: hidden;
   transition: transform 0.5s ease;
-  padding: 20px 0;
   touch-action: pan-y pinch-zoom;
   cursor: grab;
 }
 
-.slider-wrapper:active {
+.slider:active {
   cursor: grabbing;
+}
+
+.slider-track {
+  display: flex;
+  transition: transform 0.5s ease;
 }
 
 .slide {
@@ -288,12 +294,12 @@ body {
 }
 
 .service__btn {
-  font-size: 19px;
+  font-size: 15px;
   font-weight: 700;
   color: #fff;
   background-color: #026742;
   display: block;
-  width: 262px;
+  width: 100%;
   padding: 10px;
   border-radius: 4px;
   text-align: center;
@@ -335,38 +341,38 @@ body {
   margin: 0 auto;
 }
 
-.dots-container {
+.slider-nav {
   display: flex;
   justify-content: center;
-  margin: 10px 0 20px 0;
+  margin-top: 16px;
+  gap: 4px;
 }
 
-.dot {
-  width: 10px;
-  height: 10px;
+.nav-dot {
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
-  background-color: #ccc;
-  margin: 0 5px;
+  border: 1px solid #494949;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.dot.active {
-  background-color: #2e6e45;
+.nav-dot.active {
+  background-color: #026742;
 }
 
 .note {
   font-size: 11px;
   font-style: italic;
-  color: #777;
   margin-top: 5px;
 }
 
-.price-item {
+.price__item {
   margin-bottom: 25px;
   position: relative;
 }
 
-.price-item:last-child {
+.price__item:last-child {
   margin-bottom: 10px;
 }
 
@@ -375,7 +381,7 @@ body {
   font-weight: 500;
 }
 
-.price-text {
+.price__text {
   font-size: 16px;
   display: flex;
   align-items: baseline;
